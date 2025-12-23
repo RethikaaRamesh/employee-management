@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Employee Management System</h1>
+
+    <!-- SEARCH & FILTER -->
+    <form method="get" action="/dashboard" class="filter-form">
+        <input type="text" name="search" placeholder="Search by name"
+               value="{{ search }}">
+
+        <select name="role">
+            <option value="">All Roles</option>
+            {% for r in roles %}
+                <option value="{{ r.role }}"
+                    {% if role_filter == r.role %}selected{% endif %}>
+                    {{ r.role }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Search</button>
+        <a href="/dashboard" class="clear">Clear</a>
+    </form>
+
+    <!-- ADD EMPLOYEE -->
+    <h2>Add Employee</h2>
+    <form action="/add" method="post" class="add-form">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="role" placeholder="Role" required>
+        <input type="number" name="salary" placeholder="Salary" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- EMPLOYEE TABLE -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Salary</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+
+        {% for emp in employees %}
+        <tr>
+            <td>{{ emp.id }}</td>
+            <td>{{ emp.name }}</td>
+
+            <td>
+                <form action="/update/{{ emp.id }}" method="post" class="inline-form">
+                    <input type="text" name="role" value="{{ emp.role }}">
+            </td>
+            <td>
+                    <input type="number" name="salary" value="{{ emp.salary }}">
+            </td>
+            <td>
+                    <button class="update-btn">Update</button>
+                </form>
+            </td>
+
+            <td>
+                <a class="delete-btn"
+                   href="/delete/{{ emp.id }}"
+                   onclick="return confirm('Delete employee?')">
+                   Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/logout" class="logout">Logout</a>
+</div>
+
+</body>
+</html>
