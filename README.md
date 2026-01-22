@@ -69,7 +69,7 @@ employee_management/
 │
 └── README.md
     └── Project documentation
-
+```
 🔑 Login Credentials (Demo)
 Username: admin
 Password: admin
